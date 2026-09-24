@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZUMM — Site</title>
+
+  <!-- Fonte opcional para aproximar o estilo do layout de referência -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Short+Stack&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --olive:#879b20;
+      --olive-dark:#687917;
+      --lime:#efff43;
+      --cream:#f4f0d9;
+      --light-card:#dce97d;
+      --gold:#e5d05b;
+      --gold-2:#f3d52c;
+      --text:#20200e;
+      --white:#fff;
+      --page-width:442px;
+      --radius-xl:24px;
+      --shadow:0 8px 20px rgba(50,55,10,.10);
+    }
+
+    *{box-sizing:border-box}
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      background:#ddd8bf;
+      color:var(--text);
+      font-family:"Patrick Hand","Trebuchet MS",sans-serif;
+    }
+
+    button,
+    a{
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    .site{
+      width:100%;
+      max-width:var(--page-width);
+      min-height:100vh;
+      margin:0 auto;
+      background:var(--cream);
+      overflow-x:hidden;
+      position:relative;
+      box-shadow:0 0 30px rgba(0,0,0,.12);
+    }
+
+    /* =========================
+       HEADER
+       ========================= */
+    .topbar{
+      height:44px;
+      background:var(--olive);
+      position:relative;
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      padding:0 18px;
+      z-index:50;
+    }
+
+    .brand{
+      position:absolute;
+      top:7px;
+      left:50%;
+      transform:translateX(-50%);
+      width:64px;
+      height:48px;
+      display:grid;
+      place-items:center;
+      font-family:"Short Stack",cursive;
+      font-size:16px;
+      color:#493f00;
+      background:#e8cb26;
+      clip-path:polygon(50% 0%, 82% 11%, 100% 50%, 82% 89%, 50% 100%, 18% 89%, 0% 50%, 18% 11%);
+      filter:drop-shadow(0 2px 2px rgba(0,0,0,.15));
+      z-index:51;
+    }
+
+    /* Troque este conteúdo por uma <img> quando tiver a logo. */
+    .brand span{
+      transform:rotate(-8deg);
+    }
+
+    .menu-toggle{
+      border:0;
+      background:transparent;
+      width:32px;
+      height:32px;
+      display:grid;
+      place-content:center;
+      gap:4px;
+      cursor:pointer;
+      padding:0;
+    }
+
+    .menu-toggle span{
+      display:block;
+      width:14px;
+      height:2px;
+      background:#5a321e;
+      border-radius:4px;
+      transition:.25s;
+    }
+
+    /* =========================
+       MENU LATERAL
+       ========================= */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.35);
+      opacity:0;
+      visibility:hidden;
+      transition:.25s;
+      z-index:100;
+    }
+
+    .drawer{
+      position:fixed;
+      top:0;
+      right:0;
+      width:min(300px, 82vw);
+      height:100vh;
+      background:var(--cream);
+      box-shadow:-8px 0 25px rgba(0,0,0,.16);
+      transform:translateX(100%);
+      transition:.3s ease;
+      z-index:101;
+      padding:78px 24px 24px;
+    }
+
+    .drawer.is-open{
+      transform:translateX(0);
+    }
+
+    .overlay.is-open{
+      opacity:1;
+      visibility:visible;
+    }
+
+    .drawer-close{
+      position:absolute;
+      top:18px;
+      right:18px;
+      width:36px;
+      height:36px;
+      border:0;
+      border-radius:50%;
+      background:var(--olive);
+      color:white;
+      font-size:24px;
+      line-height:1;
+      cursor:pointer;
+    }
+
+    .drawer h2{
+      margin:0 0 20px;
+      font-size:30px;
+      font-weight:400;
+    }
+
+    .drawer-link{
+      display:block;
+      width:100%;
+      text-align:left;
+      border:0;
+      background:var(--light-card);
+      color:var(--text);
+      font-family:inherit;
+      font-size:24px;
+      padding:14px 16px;
+      margin-bottom:12px;
+      border-radius:16px;
+      cursor:pointer;
+    }
+
+    /* =========================
+       HERO DE MEL
+       ========================= */
+    .honey-hero{
+      height:122px;
+      background:var(--lime);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .honey-top{
+      position:absolute;
+      left:-2%;
+      top:-13px;
+      width:104%;
+      height:52px;
+      background:
+        radial-gradient(circle at 4% 40%, #8e4c05 0 18px, transparent 19px),
+        radial-gradient(circle at 17% 45%, #a76105 0 22px, transparent 23px),
+        radial-gradient(circle at 31% 50%, #b87006 0 17px, transparent 18px),
+        radial-gradient(circle at 47% 34%, #8c4705 0 23px, transparent 24px),
+        radial-gradient(circle at 62% 52%, #a95c07 0 21px, transparent 22px),
+        radial-gradient(circle at 78% 38%, #8c4905 0 22px, transparent 23px),
+        radial-gradient(circle at 93% 47%, #a65e05 0 19px, transparent 20px);
+      filter:blur(.2px);
+      border-radius:0 0 55% 55% / 0 0 28% 28%;
+    }
+
+    .drip{
+      position:absolute;
+      top:22px;
+      width:9px;
+      background:linear-gradient(#b96d06,#8a4904);
+      border-radius:0 0 12px 12px;
+      box-shadow:0 1px 1px rgba(0,0,0,.15);
+    }
+
+    .drip::after{
+      content:"";
+      position:absolute;
+      width:13px;
+      height:13px;
+      border-radius:50%;
+      left:50%;
+      bottom:-6px;
+      transform:translateX(-50%);
+      background:#9c5605;
+    }
+
+    .drip.d1{left:12%;height:68px}
+    .drip.d2{left:31%;height:102px}
+    .drip.d3{left:54%;height:84px}
+    .drip.d4{left:74%;height:69px}
+    .drip.d5{left:91%;height:98px}
+
+    .page-hero{
+      height:177px;
+      position:relative;
+      overflow:hidden;
+      background:#3c4a21;
+    }
+
+    .page-hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(rgba(20,30,10,.18),rgba(20,30,10,.18)),
+        linear-gradient(135deg,#56711e 0%,#294114 48%,#6e8033 100%);
+    }
+
+    .page-hero-title{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:25px;
+      color:white;
+      font-size:38px;
+      line-height:1;
+      text-shadow:0 2px 5px rgba(0,0,0,.35);
+      z-index:2;
+    }
+
+    /* =========================
+       PÁGINAS / SEÇÕES
+       ========================= */
+    .page{
+      display:none;
+    }
+
+    .page.active{
+      display:block;
+    }
+
+    .home-content{
+      padding:20px 34px 0;
+    }
+
+    .intro{
+      display:grid;
+      grid-template-columns:115px 1fr;
+      gap:15px;
+      align-items:center;
+      margin:0 0 27px;
+    }
+
+    .intro-image{
+      width:115px;
+      height:104px;
+      background:
+        linear-gradient(135deg,#718b27,#b7c867 50%,#53651c);
+      clip-path:polygon(25% 2%,75% 2%,100% 50%,75% 98%,25% 98%,0 50%);
+      border:8px solid #d6bd39;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .intro-image::after{
+      content:"IMAGEM";
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      color:white;
+      font-size:16px;
+      letter-spacing:1px;
+      background:rgba(0,0,0,.08);
+    }
+
+    .intro-text{
+      margin:0;
+      font-family:"Patrick Hand","Trebuchet MS",sans-serif;
+      font-size:14px;
+      line-height:1.32;
+    }
+
+    .accordion{
+      margin:0 0 27px;
+    }
+
+    .accordion-btn{
+      width:100%;
+      border:0;
+      border-radius:12px;
+      background:var(--light-card);
+      color:#31330c;
+      font-family:"Patrick Hand",cursive;
+      font-size:28px;
+      line-height:1;
+      min-height:52px;
+      cursor:pointer;
+      padding:11px 18px;
+    }
+
+    .accordion:nth-of-type(2) .accordion-btn,
+    .accordion.gold .accordion-btn{
+      background:var(--gold);
+    }
+
+    .accordion-btn::after{
+      content:"+";
+      float:right;
+      font-family:Arial,sans-serif;
+      font-size:24px;
+      transform:translateY(1px);
+      transition:.2s;
+    }
+
+    .accordion.open .accordion-btn::after{
+      content:"−";
+    }
+
+    .accordion-panel{
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .35s ease, padding .35s ease;
+      border-radius:0 0 12px 12px;
+      background:#edf3b6;
+      padding:0 16px;
+    }
+
+    .accordion.open .accordion-panel{
+      max-height:700px;
+      padding:16px;
+    }
+
+    .panel-text{
+      margin:0;
+      font-size:17px;
+      line-height:1.35;
+    }
+
+    /* =========================
+       REDES SOCIAIS
+       ========================= */
+    .social-panel{
+      padding:17px 14px 18px;
+    }
+
+    .social-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      text-align:center;
+      align-items:end;
+    }
+
+    .social-item{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+    }
+
+    .social-icon{
+      width:46px;
+      height:46px;
+      display:grid;
+      place-items:center;
+      border:4px solid #222;
+      border-radius:12px;
+      font-family:Arial,sans-serif;
+      font-size:24px;
+      font-weight:700;
+      line-height:1;
+    }
+
+    .social-item:nth-child(2) .social-icon{
+      border:none;
+      font-size:50px;
+      align-items:end;
+    }
+
+    .social-item:nth-child(3) .social-icon{
+      border:none;
+      font-size:54px;
+    }
+
+    .social-handle{
+      font-family:"Trebuchet MS",sans-serif;
+      font-size:14px;
+      line-height:1.15;
+    }
+
+    /* =========================
+       CONTATO
+       ========================= */
+    .contact-panel{
+      padding:17px 14px 19px;
+    }
+
+    .contact-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      align-items:center;
+    }
+
+    .contact-item{
+      min-height:95px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      gap:6px;
+      padding:0 8px;
+    }
+
+    .contact-item + .contact-item{
+      border-left:1px solid #333;
+    }
+
+    .contact-icon{
+      font-family:Arial,sans-serif;
+      font-size:43px;
+      line-height:1;
+    }
+
+    .contact-value{
+      font-family:"Trebuchet MS",sans-serif;
+      font-size:13px;
+      line-height:1.2;
+    }
+
+    /* =========================
+       INICIATIVAS
+       ========================= */
+    .initiative-content{
+      padding:18px 34px 0;
+    }
+
+    .initiative-box{
+      background:var(--light-card);
+      border-radius:32px;
+      padding:15px 24px 17px;
+      text-align:center;
+      font-size:18px;
+      line-height:1.12;
+      margin-bottom:66px;
+    }
+
+    .initiative-box p{
+      margin:0;
+    }
+
+    /* =========================
+       PRODUTOS
+       ========================= */
+    .products-wrap{
+      background:#e4e99a;
+      margin:30px 50px 31px;
+      border-radius:30px;
+      padding:17px 27px 28px;
+    }
+
+    .products-title{
+      margin:0 0 24px;
+      text-align:center;
+      font-size:47px;
+      font-weight:400;
+      line-height:1;
+      color:#fff3ee;
+      text-shadow:
+        -1px -1px 0 #d98784,
+         1px -1px 0 #d98784,
+        -1px  1px 0 #d98784,
+         1px  1px 0 #d98784;
+    }
+
+    .product-card{
+      height:120px;
+      margin-bottom:22px;
+      border-radius:20px;
+      overflow:hidden;
+      position:relative;
+      background:linear-gradient(90deg,#b18c5d 0%,#efdb61 58%,#a7bf2a 100%);
+    }
+
+    .product-card:last-child{
+      margin-bottom:0;
+    }
+
+    .product-photo{
+      position:absolute;
+      inset:0 auto 0 0;
+      width:58%;
+      background:
+        linear-gradient(rgba(92,62,24,.15),rgba(92,62,24,.15)),
+        linear-gradient(135deg,#7f5b3c,#d5bb83 45%,#caa050 100%);
+    }
+
+    .product-photo::after{
+      content:"FOTO";
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      color:rgba(255,255,255,.8);
+      font-size:18px;
+      letter-spacing:2px;
+    }
+
+    .product-info{
+      position:absolute;
+      right:20px;
+      top:0;
+      width:45%;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      gap:8px;
+    }
+
+    .pill{
+      width:100%;
+      max-width:114px;
+      text-align:center;
+      border-radius:12px;
+      background:#f6d134;
+      padding:6px 8px 5px;
+      font-size:17px;
+      line-height:1;
+    }
+
+    .price{
+      border-radius:12px;
+      background:#f0c71e;
+      padding:7px 15px 6px;
+      font-size:25px;
+      line-height:1;
+    }
+
+    /* =========================
+       RODAPÉ
+       ========================= */
+    .footer{
+      min-height:93px;
+      background:var(--olive);
+      color:#fffde8;
+      display:grid;
+      grid-template-columns:1fr 1px 1.65fr 1fr;
+      align-items:center;
+      gap:12px;
+      padding:13px 28px;
+      margin-top:0;
+    }
+
+    .footer-logo{
+      width:58px;
+      height:48px;
+      justify-self:end;
+      background:#e8cb26;
+      clip-path:polygon(50% 0%, 82% 11%, 100% 50%, 82% 89%, 50% 100%, 18% 89%, 0% 50%, 18% 11%);
+      color:#493f00;
+      display:grid;
+      place-items:center;
+      font-family:"Short Stack",cursive;
+      font-size:14px;
+      transform:rotate(-4deg);
+    }
+
+    .footer-divider{
+      width:1px;
+      height:40px;
+      background:#fffde8;
+      opacity:.9;
+    }
+
+    .footer-text{
+      font-size:11px;
+      line-height:1.15;
+      text-align:center;
+    }
+
+    .footer-text span{
+      display:block;
+      margin-bottom:7px;
+    }
+
+    @media (min-width: 700px){
+      .site{
+        min-height:100vh;
+      }
+    }
+
+    @media (max-width: 420px){
+      .home-content,
+      .initiative-content{
+        padding-left:26px;
+        padding-right:26px;
+      }
+
+      .intro{
+        grid-template-columns:102px 1fr;
+        gap:12px;
+      }
+
+      .intro-image{
+        width:102px;
+        height:93px;
+      }
+
+      .products-wrap{
+        margin-left:34px;
+        margin-right:34px;
+      }
+
+      .footer{
+        padding-left:18px;
+        padding-right:18px;
+        gap:8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site">
+
+    <!-- HEADER -->
+    <header class="topbar">
+      <div class="brand" aria-label="Logo ZUMM"><span>ZUMM</span></div>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <!-- MENU LATERAL -->
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="drawer" id="drawer" aria-hidden="true">
+      <button class="drawer-close" id="drawerClose" aria-label="Fechar menu">×</button>
+      <h2>Menu</h2>
+
+      <button class="drawer-link" data-page-target="produtos">Produtos</button>
+      <button class="drawer-link" data-page-target="iniciativas">Iniciativas</button>
+    </aside>
+
+    <main>
+
+      <!-- =========================
+           PÁGINA INICIAL
+           ========================= -->
+      <section class="page active" id="home">
+
+        <div class="honey-hero" aria-hidden="true">
+          <div class="honey-top"></div>
+          <div class="drip d1"></div>
+          <div class="drip d2"></div>
+          <div class="drip d3"></div>
+          <div class="drip d4"></div>
+          <div class="drip d5"></div>
+        </div>
+
+        <div class="home-content">
+
+          <div class="intro">
+            <!-- SUBSTITUA O BLOCO .intro-image POR <img src="..." alt="..."> -->
+            <div class="intro-image"></div>
+
+            <p class="intro-text">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum has been the industry's standard dummy text ever since 1966,
+              when Letraset and James Mosley, the librarian at St Bride Printing Library
+              in London, took a 1974 Cicero translation and scrambled it to make dummy text.
+            </p>
+          </div>
+
+          <!-- PRODUTOS -->
+          <div class="accordion" data-accordion>
+            <button class="accordion-btn">Produtos</button>
+            <div class="accordion-panel">
+              <p class="panel-text">
+                Área para apresentar os produtos, preços, descrição, disponibilidade ou links.
+              </p>
+            </div>
+          </div>
+
+          <!-- INICIATIVAS -->
+          <div class="accordion gold" data-accordion>
+            <button class="accordion-btn">Iniciativas</button>
+            <div class="accordion-panel">
+              <p class="panel-text">
+                Área para explicar projetos, ações de preservação, campanhas e iniciativas da marca.
+              </p>
+            </div>
+          </div>
+
+          <!-- REDES SOCIAIS -->
+          <div class="accordion" data-accordion>
+            <button class="accordion-btn">Redes Sociais</button>
+            <div class="accordion-panel social-panel">
+              <div class="social-grid">
+                <div class="social-item">
+                  <div class="social-icon">◎</div>
+                  <div class="social-handle">@zumm.br</div>
+                </div>
+
+                <div class="social-item">
+                  <div class="social-icon">f</div>
+                  <div class="social-handle">@zumm.mel</div>
+                </div>
+
+                <div class="social-item">
+                  <div class="social-icon">⌁</div>
+                  <div class="social-handle">@zumm.br</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONTATO -->
+          <div class="accordion gold" data-accordion>
+            <button class="accordion-btn">Suporte e Contato</button>
+            <div class="accordion-panel contact-panel">
+              <div class="contact-grid">
+                <div class="contact-item">
+                  <div class="contact-icon">☎</div>
+                  <div class="contact-value">
+                    (41) 38280-5210<br>
+                    (33) 38453-4302
+                  </div>
+                </div>
+
+                <div class="contact-item">
+                  <div class="contact-icon">✉</div>
+                  <div class="contact-value">
+                    zumm.mel.suporte<br>
+                    @gmail.com
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =========================
+           PÁGINA INICIATIVAS
+           ========================= -->
+      <section class="page" id="iniciativas">
+
+        <div class="page-hero">
+          <!-- SUBSTITUA O FUNDO DO .page-hero POR SUA IMAGEM -->
+          <div class="page-hero-title">Proteção às<br>abelhas</div>
+        </div>
+
+        <div class="initiative-content">
+          <div class="initiative-box">
+            <p>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum has been the industry's standard dummy text ever since 1966,
+              when Letraset and James Mosley, the librarian at St Bride Printing Library
+              in London, took a 1974 Cicero translation and scrambled it to make dummy text
+              for Letraset's Body Type sheets. It has survived not only many decades, but
+              also the leap into electronic typesetting.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+           PÁGINA PRODUTOS
+           ========================= -->
+      <section class="page" id="produtos">
+
+        <div class="honey-hero" aria-hidden="true">
+          <div class="honey-top"></div>
+          <div class="drip d1"></div>
+          <div class="drip d2"></div>
+          <div class="drip d3"></div>
+          <div class="drip d4"></div>
+          <div class="drip d5"></div>
+        </div>
+
+        <div class="products-wrap">
+          <h1 class="products-title">Produtos</h1>
+
+          <!-- PRODUTO 1 -->
+          <article class="product-card">
+            <div class="product-photo"></div>
+
+            <div class="product-info">
+              <div class="pill">Mel caseiro</div>
+              <div class="price">R$60</div>
+            </div>
+          </article>
+
+          <!-- PRODUTO 2 -->
+          <article class="product-card">
+            <div class="product-photo"></div>
+
+            <div class="product-info">
+              <div class="pill">Pão de Mel</div>
+              <div class="price">R$12</div>
+            </div>
+          </article>
+
+          <!-- PRODUTO 3 -->
+          <article class="product-card">
+            <div class="product-photo"></div>
+
+            <div class="product-info">
+              <div class="pill">Torrone</div>
+              <div class="price">R$60</div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-text">
+        <span>Se tem mel doce,<br>tem abelha feliz</span>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-text">
+        <span>© 2026 ZUMM. Todos os<br>direitos reservados.</span>
+      </div>
+
+      <!-- SUBSTITUA POR SUA LOGO QUANDO TIVER O ARQUIVO -->
+      <div class="footer-logo">ZUMM</div>
+    </footer>
+  </div>
+
+  <script>
+    // =========================
+    // MENU LATERAL
+    // =========================
+    const menuToggle = document.getElementById("menuToggle");
+    const drawer = document.getElementById("drawer");
+    const drawerClose = document.getElementById("drawerClose");
+    const overlay = document.getElementById("overlay");
+
+    function openMenu() {
+      drawer.classList.add("is-open");
+      overlay.classList.add("is-open");
+      drawer.setAttribute("aria-hidden", "false");
+      menuToggle.setAttribute("aria-expanded", "true");
+    }
+
+    function closeMenu() {
+      drawer.classList.remove("is-open");
+      overlay.classList.remove("is-open");
+      drawer.setAttribute("aria-hidden", "true");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }
+
+    menuToggle.addEventListener("click", openMenu);
+    drawerClose.addEventListener("click", closeMenu);
+    overlay.addEventListener("click", closeMenu);
+
+    // =========================
+    // NAVEGAÇÃO ENTRE PÁGINAS
+    // =========================
+    const pages = document.querySelectorAll(".page");
+    const drawerLinks = document.querySelectorAll("[data-page-target]");
+
+    function showPage(pageId) {
+      pages.forEach(page => {
+        page.classList.toggle("active", page.id === pageId);
+      });
+
+      closeMenu();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    drawerLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        showPage(link.dataset.pageTarget);
+      });
+    });
+
+    // =========================
+    // ACCORDIONS / DROPDOWNS
+    // =========================
+    const accordions = document.querySelectorAll("[data-accordion]");
+
+    accordions.forEach(accordion => {
+      const button = accordion.querySelector(".accordion-btn");
+
+      button.addEventListener("click", () => {
+        const alreadyOpen = accordion.classList.contains("open");
+
+        // Fecha todos para manter o comportamento organizado.
+        accordions.forEach(item => item.classList.remove("open"));
+
+        if (!alreadyOpen) {
+          accordion.classList.add("open");
+        }
+      });
+    });
+
+    // Fecha menu com ESC
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    });
+  </script>
+</body>
+</html>
